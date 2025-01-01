@@ -3,16 +3,12 @@ set nocompatible
 
 " Show line numbers
 set number
+set relativenumber
 
-" Endble type file detection
-filetype on
+" Enable plugins and indent
+filetype plugin indent on
 
-" Enable plugins
-filetype plugin on
-
-" Load an indent file for detected file type
-filetype indent on
-
+" Show status line
 set laststatus=2
 
 " Do wrap lines. Do not allow long lines to extend as far as the line goes
@@ -21,19 +17,13 @@ set wrap
 " Turn syntax highlighting on
 syntax on
 
-" Highlight cursor line underneath the cursor horizon
+" Highlight cursor line and column
 set cursorline
-
-" Highlight cursor line underneath the cursor vertically
 set cursorcolumn
 
-" Set shift width to 4 spaces
+" Set shift and tab widths to 4 spaces
 set shiftwidth=4
-
-" Set tab width to 4 columns
 set tabstop=4
-
-" Use space characters instead of tabs
 set expandtab
 
 " Do not save backup files
@@ -42,6 +32,7 @@ set nobackup
 " Do not let cursor scroll below or above N number of lines when scrolling
 set scrolloff=10
 
+" Search settings
 " While searching though a file incrementally highlight matching characters as you type.
 set incsearch
 
@@ -76,22 +67,49 @@ set wildmode=list:longest
 " Wildmenu will ignore files with these extensions.
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
-" PLUGINS ---------------------------------------------------------------- {{{
+" Automatically insert closing brackets
+inoremap ( ()<Left>
+inoremap [ []<Left>
+inoremap { {}<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
 
-" Plugin code goes here.
+" Deletes empty sets
+nnoremap <silent> d( 2dl
+nnoremap <silent> d[ 2dl
+nnoremap <silent> d{ 2dl 
+nnoremap <silent> d" 2dl 
+nnoremap <silent> d' 2dl 
 
-" }}}
+" Clear search highlight
+nnoremap <leader>h :nohlsearch<CR>
+nnoremap <Esc> :nohlsearch<CR><Esc>
+
+" PLUGINS ---------------------------------------------------------------- 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'valloric/youcompleteme'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'fatih/vim-go'
+Plugin 'vim-utils/vim-man'
+Plugin 'tpope/vim-fugitive'
+
+call vundle#end()            " 
+
+" Make YCM automatically load the .ycm_extra_conf.py file without prompting
+let g:ycm_confirm_extra_conf = 0
+
+" MAPPINGS ---------------------------------------------------------------
+let mapleader=" "
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
 
-" MAPPINGS --------------------------------------------------------------- {{{
-
-" Mappings code goes here.
-
-" }}}
-
-
-" VIMSCRIPT -------------------------------------------------------------- {{{
-
+" VIMSCRIPT --------------------------------------------------------------
 " This will enable code folding.
 " Use the marker method of folding.
 augroup filetype_vim
@@ -99,13 +117,20 @@ augroup filetype_vim
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
-" More Vimscripts code goes here.
 
-" }}}
+" STATUS LINE ------------------------------------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = "unique_tail"
 
+" Persistent Undo
+if has("persistent_undo")
+    set undodir=~/.vim/undodir
+    set undofile
+endif
 
-" STATUS LINE ------------------------------------------------------------ {{{
+" Backup and Swap Files
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
 
-" Status bar code goes here.
-
-" }}}
+" Performance
+set lazyredraw
