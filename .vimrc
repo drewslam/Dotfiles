@@ -85,6 +85,19 @@ nnoremap <silent> d' 2dl
 nnoremap <leader>h :nohlsearch<CR>
 nnoremap <Esc> :nohlsearch<CR><Esc>
 
+" Highlight markdown
+
+highlight markdownId ctermfg=Blue
+highlight markdownLineStart ctermfg=Green
+highlight markdownH1 ctermfg=Red
+highlight markdownH2 ctermfg=Yellow
+highlight markdownHeadingRule ctermfg=Cyan
+highlight markdownRule ctermfg=White
+highlight markdownCode ctermfg=Grey
+highlight markdownCodeBlock ctermfg=Magenta
+highlight markdownIdDeclaration ctermfg=Blue
+
+
 " PLUGINS ---------------------------------------------------------------- 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -107,7 +120,7 @@ let g:ycm_confirm_extra_conf = 0
 let mapleader=" "
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-
+nnoremap <leader>qp :q!<CR>
 
 " VIMSCRIPT --------------------------------------------------------------
 " This will enable code folding.
